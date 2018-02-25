@@ -1,21 +1,16 @@
 defmodule MagentistWeb.DataController do
   use MagentistWeb, :controller
 
+  alias Magentist.Generator
+
   @defaults %{"filename" => "magento"}
 
   def index(conn, %{"config" => config}) do
     config = Map.merge(@defaults, Poison.decode!(config))
 
-    generate(config)
+    Generator.generate(config)
     |> CSV.encode
     |> Enum.into(response(conn, config["filename"]))
-  end
-
-  defp generate(config) do
-    Stream.concat(
-      [[config["columns"]],
-      Magentist.Generator.generate(config)]
-    )
   end
 
   defp response(conn, filename) do

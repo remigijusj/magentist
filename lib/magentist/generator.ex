@@ -1,12 +1,22 @@
 defmodule Magentist.Generator do
   def generate(config) do
-    config["columns"]
-    |> Enum.map(& values(config, &1))
+    columns = Map.get(config, "columns", [])
+    Stream.concat([names(columns)], data_rows(columns))
+  end
+
+  def names(columns) do
+    columns
+    |> Enum.map(& &1["name"])
+  end
+
+  def data_rows(columns) do
+    columns
+    |> Enum.map(& values(&1))
     |> cartesian_product
   end
 
-  defp values(config, column) do
-    Map.get(config["values"], column, [nil])
+  defp values(column) do
+    Map.get(column, "values", [nil])
   end
 
   defp cartesian_product([]), do: []
