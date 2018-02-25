@@ -1,15 +1,15 @@
-// First we import the various pieces of Vue and Apollo.
 import Vue from 'vue'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
-import App from './App.vue' // top-level container for our app. 
+import BootstrapVue from 'bootstrap-vue'
+import App from './App.vue' // Top-level container for our app. 
 
 // Create the link the Apollo Client will manage between our frontend client and GraphQL server. 
 // Note that this is setup for development/demo - deployment will require your real URL.
 const httpLink = new HttpLink({
-  // You should use an absolute URL here
+  // You should use an absolute URL.
   uri: 'http://localhost:4000/graphql',
 })
 
@@ -22,6 +22,7 @@ const apolloClient = new ApolloClient({
 
 // Install the vue plugin for VueApollo
 Vue.use(VueApollo)
+Vue.use(BootstrapVue)
 
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient,

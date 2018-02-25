@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <h1>{{ header }}</h1>
-    <p>User: {{ user.name }}</p>
+    <b-container class="text-center">
+      <b-jumbotron header="CSV generator" v-bind:lead="user.name"></b-jumbotron>
 
-    <form method="POST" action="/data">
-      <textarea rows="6" cols="60" v-model="config" name="config"></textarea>
-      <br/>
-      <input type="submit" value="Download CSV" />
-    </form>
+      <form method="POST" action="/data">
+        <input type="hidden" name="config" v-model="config" />
+        <b-button type="submit" variant="primary">Download CSV</b-button>
+      </form>
+
+      <b-form-group>
+        <b-form-checkbox v-model="debug">Show config</b-form-checkbox>
+        <b-form-textarea v-model="config" v-if="debug" id="config-area"></b-form-textarea>
+      </b-form-group>
+    </b-container>
   </div>
 </template>
 
@@ -17,9 +22,9 @@ export default {
   name: 'app',
   data () {
     return {
-      header: 'Magento CSV generator',
-      config: '{\n"columns": ["model","style","price"],\n"values":{\n  "model": ["Alpha","Beta","Gamma"],\n  "style": ["simple","advanced"]\n}\n}',
-      user: ''
+      config: '{\n"columns": ["model","style","price"],\n"values": {\n  "model": ["Alpha","Beta","Gamma"],\n  "style": ["simple","advanced"]}\n}',
+      user: '',
+      debug: false
     }
   },
   methods: {
@@ -38,24 +43,8 @@ export default {
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+#config-area {
+  font-family: 'Console', monospace;
 }
 </style>
