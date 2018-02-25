@@ -1,6 +1,7 @@
 defmodule MagentistWeb.Router do
   use MagentistWeb, :router
 
+  # The default browser stack
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,16 +15,17 @@ defmodule MagentistWeb.Router do
   end
 
   scope "/", MagentistWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
   end
 
-  forward "/graphql", Absinthe.Plug, schema: MagentistWeb.Schema
-  forward "/graphiql", Absinthe.Plug.GraphiQL, schema: MagentistWeb.Schema, interface: :simple
+  scope "/data", MagentistWeb do
+    pipe_through :api
 
-  # Other scopes may use custom stacks.
-  # scope "/api", MagentistWeb do
-  #   pipe_through :api
-  # end
+    post "/", DataController, :index
+  end
+
+  forward "/graphql",  Absinthe.Plug,          schema: MagentistWeb.Schema
+  forward "/graphiql", Absinthe.Plug.GraphiQL, schema: MagentistWeb.Schema, interface: :simple
 end

@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-    <h1>User: {{ user.name }}</h1>
+    <h1>{{ header }}</h1>
+    <p>User: {{ user.name }}</p>
+
+    <form method="POST" action="/data">
+      <textarea rows="6" cols="60" v-model="config" name="config"></textarea>
+      <br/>
+      <input type="submit" value="Download CSV" />
+    </form>
   </div>
 </template>
 
@@ -11,16 +17,17 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Magentist',
-      user: '' // Apollo will assign the result of its "user" query here
+      header: 'Magento CSV generator',
+      config: '{\n  "columns": ["one","two"]\n}',
+      user: ''
     }
   },
+  methods: {
+  },
   apollo: {
-    // Apollo specific options
-    // Here, we use gql to describe the data we want: a user with ID 1, and 
     // Apollo will assign the result of that query to the 'user' key in data.
     user: gql`{
-      user(id: "7"){
+      user(id: "1"){
         name
       }
     }`,
