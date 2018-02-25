@@ -18,7 +18,7 @@ export default {
   data () {
     return {
       header: 'Magento CSV generator',
-      config: '{\n  "columns": ["one","two"]\n}',
+      config: '{\n"columns": ["model","style","price"],\n"values":{\n  "model": ["Alpha","Beta","Gamma"],\n  "style": ["simple","advanced"]\n}\n}',
       user: ''
     }
   },
