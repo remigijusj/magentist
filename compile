@@ -1,0 +1,3 @@
+cd "$phoenix_dir/assets"
+
+ENV=production node_modules/.bin/webpack
